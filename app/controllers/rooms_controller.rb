@@ -1,6 +1,8 @@
 class RoomsController < ApplicationController
     before_action :set_room, only: [:show, :edit, :update, :destroy]
 
+    before_action :authorize_user!, only: [:edit, :update, :destroy]
+
     def index
         @rooms = Room.all
     end
@@ -14,6 +16,7 @@ class RoomsController < ApplicationController
 
     def create
         @room = Room.new(room_params)
+        @room.user = current_user
     if @room.save
         redirect_to @room, notice: "Room created with success"
     else
@@ -33,14 +36,14 @@ class RoomsController < ApplicationController
   end
 
   def destroy
-  @room = Room.find(params[:id])
-  if @room.bookings.exists?
-    redirect_to @room, alert: "Impossible de supprimer cette chambre car elle a des réservations actives."
-  else
-    @room.destroy
-    redirect_to rooms_path, notice: "La chambre a bien été supprimée."
+    @room = Room.find(params[:id])
+    if @room.bookings.exists?
+        redirect_to @room, alert: "Impossible de supprimer cette chambre car elle a des réservations actives."
+    else
+        @room.destroy
+        redirect_to rooms_path, notice: "La chambre a bien été supprimée."
+    end
   end
-end
 
   private
 
@@ -50,5 +53,11 @@ end
 
   def room_params
     params.require(:room).permit(:name, :description, :price_per_night, :max_guests)
+  end
+
+  def authorize_user!
+    unless @room.user == current_user
+        redirect_to rooms_path, alert: "Tu n'es pas autorisé à modifier cette chambre."
+    end
   end
 end
