@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bnnnb</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <nav style="background-color: #f5f5f5; padding: 1em; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between;">
+    <div>
+      <%= link_to "Accueil", root_path, style: "margin-right: 1em;" %>
+    </div>
+
+    <div>
+      <% if user_signed_in? %>
+        <span style="margin-right: 1em;">Bonjour, <%= current_user.email %> !</span>
+          <%= link_to "Se déconnecter", destroy_user_session_path, method: :delete, data: { turbo_method: :delete } %>
+      <% else %>
+        <%= link_to "Se connecter", new_user_session_path, style: "margin-right: 1em;" %>
+        <%= link_to "S'inscrire", new_user_registration_path %>
+      <% end %>
+    </div>
+  </nav>
+
+    <% flash.each do |key, message| %>
+    <div class="flash <%= key %>">
+      <%= message %>
+    </div>
+  <% end %>
+
+    <%= yield %>
+  </body>
+</html>

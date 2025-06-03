@@ -1,0 +1,19 @@
+<h1><%= @room.name %></h1>
+
+<p><%= @room.description %></p>
+<p>Prix par nuit : <%= @room.price_per_night %> €</p>
+<p>Max invités : <%= @room.max_guests %></p>
+
+<% if user_signed_in? %>
+    <%= link_to "Réserver cette chambre", new_room_booking_path(@room), class: "btn btn-primary" %>
+    <%= link_to "Edit this room", edit_room_path %>
+    <%= link_to 'Delete the room',
+                        room_path(@room),
+                        data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to remove this room?' },
+                        class:"btn btn-warning"%>
+<% else %>
+  <p><%= link_to "Connecte-toi pour réserver", new_user_session_path %></p>
+<% end %>
+
+
+<%= link_to "Retour à la liste", rooms_path %>

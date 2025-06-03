@@ -1,0 +1,25 @@
+<%= form_with(model: @room) do |f| %>
+  <div>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </div>
+
+  <div>
+    <%= f.label :price_per_night, "Prix par nuit" %><br>
+    <%= f.number_field :price_per_night %>
+  </div>
+
+  <div>
+    <%= f.label :max_guests, "Nombre max d'invités" %><br>
+    <%= f.number_field :max_guests %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

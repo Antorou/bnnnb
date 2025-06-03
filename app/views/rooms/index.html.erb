@@ -1,0 +1,13 @@
+<h1>Nos chambres</h1>
+
+<% @rooms.each do |room| %>
+  <div>
+    <h2><%= link_to room.name, room_path(room) %></h2>
+    <p><%= room.description %></p>
+    <p>Prix par nuit : <%= room.price_per_night %> €</p>
+  </div>
+<% end %>
+
+<% if user_signed_in? %>
+  <%= link_to "Ajouter une chambre", new_room_path %>
+<% end %>
