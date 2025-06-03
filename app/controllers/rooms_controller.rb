@@ -17,12 +17,12 @@ class RoomsController < ApplicationController
     def create
         @room = Room.new(room_params)
         @room.user = current_user
-    if @room.save
-        redirect_to @room, notice: "Room created with success"
-    else
-        render :new
+        if @room.save
+            redirect_to @room, notice: "Room created with success"
+        else
+            render :new
+        end
     end
-  end
 
   def edit
   end
