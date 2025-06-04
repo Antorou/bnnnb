@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   end
 
   root "home#index"
+
+  get 'dashboard', to: 'users#dashboard', as: 'user_dashboard'
 end

@@ -1,0 +1,22 @@
+<h1>Mon Dashboard</h1>
+
+<h2>Mes chambres</h2>
+<% @rooms.each do |room| %>
+  <div>
+    <h3>
+      <%= link_to room.name, room_path(room) %>
+    </h3>
+    <p><%= room.description %></p>
+  </div>
+<% end %>
+
+<h2>Mes réservations à venir</h2>
+<% @bookings.each do |booking| %>
+  <div>
+    <p>
+      Chambre :
+      <%= link_to booking.room.name, room_path(booking.room) %>
+    </p>
+    <p>Du <%= booking.start_date %> au <%= booking.end_date %></p>
+  </div>
+<% end %>

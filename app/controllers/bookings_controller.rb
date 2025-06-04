@@ -2,6 +2,8 @@ class BookingsController < ApplicationController
   before_action :set_room, only: [:new, :create]
   before_action :authenticate_user!
 
+  before_action :ensure_user_cannot_book_own_room, only: [:new, :create]
+
   def new
     @booking = Booking.new
   end
@@ -20,6 +22,13 @@ class BookingsController < ApplicationController
   end
 
   private
+
+  def ensure_user_cannot_book_own_room
+    @room = Room.find(params[:room_id])
+    if @room.user == current_user
+      redirect_to @room, alert: "Vous ne pouvez pas réserver votre propre chambre."
+    end
+  end
 
   def set_room
     @room = Room.find(params[:room_id])

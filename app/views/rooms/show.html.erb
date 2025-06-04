@@ -1,30 +1,42 @@
-<h1 class="text-3xl font-semibold mb-4"><%= @room.name %></h1>
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <h1 class="text-4xl font-bold text-gray-900 mb-2"><%= @room.name %></h1>
 
-<p class="mb-2 text-gray-700"><%= @room.description %></p>
-<p class="mb-2 font-medium">Prix par nuit : <span class="text-blue-600"><%= @room.price_per_night %> €</span></p>
-<p class="mb-6 font-medium">Max invités : <span class="text-blue-600"><%= @room.max_guests %></span></p>
+  <p class="text-gray-700 text-lg mb-4"><%= @room.description %></p>
+  <div class="text-gray-800 space-y-1 mb-6">
+    <p>💶 <strong>Prix par nuit :</strong> <span class="text-blue-600"><%= @room.price_per_night %> €</span></p>
+    <p>👥 <strong>Capacité :</strong> <%= @room.max_guests %> personnes</p>
+  </div>
 
-<div class="flex flex-wrap gap-4 mb-6">
-  <% @room.photos.each do |photo| %>
-    <%= image_tag photo, 
-          class: "w-64 h-64 object-cover rounded shadow hover:scale-105 transition-transform duration-200" %>
+  <% if @room.photos.attached? %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+      <% @room.photos.each do |photo| %>
+        <%= image_tag photo, class: "w-full h-60 object-cover rounded-lg shadow hover:scale-105 transition-transform duration-200" %>
+      <% end %>
+    </div>
   <% end %>
+
+  <div class="mb-6">
+    <% if user_signed_in? && current_user == @room.user %>
+      <div class="flex gap-4">
+        <%= link_to "Modifier", edit_room_path(@room), class: "px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded transition" %>
+        <%= link_to "Supprimer",
+                    room_path(@room),
+                    data: { turbo_method: :delete, turbo_confirm: "Êtes-vous sûr de vouloir supprimer cette chambre ?" },
+                    class: "px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded transition" %>
+      </div>
+
+    <% elsif user_signed_in? && current_user != @room.user %>
+      <%= link_to "Réserver cette chambre", new_room_booking_path(@room),
+          class: "px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition" %>
+
+    <% else %>
+      <p>
+        <%= link_to "Connecte-toi pour réserver", new_user_session_path,
+            class: "text-blue-600 underline hover:text-blue-800" %>
+      </p>
+    <% end %>
+  </div>
+
+  <%= link_to "← Retour à la liste", rooms_path,
+      class: "text-gray-500 hover:text-gray-700 underline text-sm" %>
 </div>
-
-<div class="space-x-3 mb-6">
-  <% if user_signed_in? && current_user == @room.user %>
-    <%= link_to "Modifier", edit_room_path(@room), class: "px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded transition" %>
-    <%= link_to 'Supprimer',
-                room_path(@room),
-                data: { turbo_method: :delete, turbo_confirm: 'Êtes-vous sûr de vouloir supprimer cette chambre ?' },
-                class: "px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded transition" %>
-
-  <% elsif user_signed_in? %>
-    <%= link_to "Réserver cette chambre", new_room_booking_path(@room), class: "px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition" %>
-
-  <% else %>
-    <p><%= link_to "Connecte-toi pour réserver", new_user_session_path, class: "text-blue-600 underline hover:text-blue-800" %></p>
-  <% end %>
-</div>
-
-<%= link_to "← Retour à la liste", rooms_path, class: "text-gray-600 hover:text-gray-900 underline" %>

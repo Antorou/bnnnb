@@ -21,6 +21,7 @@
     <div>
       <% if user_signed_in? %>
         <span style="margin-right: 1em;">Bonjour, <%= current_user.email %> !</span>
+        <%= link_to "Dashboard", user_dashboard_path %>
           <%= link_to "Se déconnecter", destroy_user_session_path, method: :delete, data: { turbo_method: :delete } %>
       <% else %>
         <%= link_to "Se connecter", new_user_session_path, style: "margin-right: 1em;" %>
