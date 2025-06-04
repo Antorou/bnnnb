@@ -7,6 +7,7 @@ class Booking < ApplicationRecord
   validate :start_date_cannot_be_in_the_past
   validate :end_date_after_start_date
   validate :dates_do_not_overlap_existing_booking
+  
 
   private
 

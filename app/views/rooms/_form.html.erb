@@ -1,25 +1,30 @@
-<%= form_with(model: @room) do |f| %>
-  <div>
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+<%= form_with(model: @room, local: true, html: { class: "max-w-md mx-auto p-4 bg-white rounded shadow" }) do |f| %>
+  <div class="mb-4">
+    <%= f.label :name, class: "block text-gray-700 font-medium mb-1" %>
+    <%= f.text_field :name, class: "w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :description, class: "block text-gray-700 font-medium mb-1" %>
+    <%= f.text_area :description, rows: 3, class: "w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :price_per_night, "Prix par nuit", class: "block text-gray-700 font-medium mb-1" %>
+    <%= f.number_field :price_per_night, class: "w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :max_guests, "Nombre max d'invités", class: "block text-gray-700 font-medium mb-1" %>
+    <%= f.number_field :max_guests, class: "w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
+  </div>
+
+  <div class="mb-6">
+    <%= f.label :photos, class: "block text-gray-700 font-medium mb-1" %>
+    <%= f.file_field :photos, multiple: true, class: "w-full" %>
   </div>
 
   <div>
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
-  </div>
-
-  <div>
-    <%= f.label :price_per_night, "Prix par nuit" %><br>
-    <%= f.number_field :price_per_night %>
-  </div>
-
-  <div>
-    <%= f.label :max_guests, "Nombre max d'invités" %><br>
-    <%= f.number_field :max_guests %>
-  </div>
-
-  <div>
-    <%= f.submit %>
+    <%= f.submit "Enregistrer", class: "w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition-colors" %>
   </div>
 <% end %>
