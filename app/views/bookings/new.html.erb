@@ -14,39 +14,50 @@
   </div>
 <% end %>
 
-<%= simple_form_for([@room, @booking], html: { class: "space-y-4" }) do |f| %>
-  <div>
-    <%= f.input :start_date,
-                as: :string,
-                label: "Date d'arrivée",
-                input_html: {
-                  class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500",
-                  data: { controller: "datepicker" },
-                  min: Date.today.strftime("%Y-%m-%d")
-                },
-                label_html: { class: "block text-sm font-medium text-gray-700 mb-1" } %>
-  </div>
+<div data-controller="booking-price"
+     data-booking-price-price-per-night-value="<%= @room.price_per_night.to_f %>">
+  <%= simple_form_for([@room, @booking], html: { class: "space-y-4" }) do |f| %>
+    <div>
+      <%= f.input :start_date,
+                  as: :string,
+                  label: "Date d'arrivée",
+                  input_html: {
+                    class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500",
+                    data: {
+                      controller: "datepicker",
+                      booking_price_target: "startDate",
+                      action: "change->booking-price#updatePrice"
+                    },
+                    min: Date.today.strftime("%Y-%m-%d")
+                  },
+                  label_html: { class: "block text-sm font-medium text-gray-700 mb-1" } %>
+    </div>
+
+    <div>
+      <%= f.input :end_date,
+                  as: :string,
+                  label: "Date de départ",
+                  input_html: {
+                    class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500",
+                    data: {
+                      controller: "datepicker",
+                      booking_price_target: "endDate",
+                      action: "change->booking-price#updatePrice"
+                    }
+                  },
+                  label_html: { class: "block text-sm font-medium text-gray-700 mb-1" } %>
+    </div>
+
+    <div>
+      <%= f.button :submit, "Réserver", class: "bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700 transition" %>
+    </div>
+  <% end %>
 
   <div>
-    <%= f.input :end_date,
-                as: :string,
-                label: "Date de départ",
-                input_html: {
-                  class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500",
-                  data: { controller: "datepicker" }
-                },
-                label_html: { class: "block text-sm font-medium text-gray-700 mb-1" } %>
+    <p class="text-md font-medium text-gray-700 mt-2">Prix total :
+      <span data-booking-price-target="total">0 €</span>
+    </p>
   </div>
-
-  <div>
-    <%= f.button :submit, "Réserver", class: "bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700 transition" %>
-  </div>
-<% end %>
-
-<div>
-  <p class="text-md font-medium text-gray-700">Prix total : 
-    <span id="total-price">0 €</span>
-  </p>
 </div>
 
 <%= link_to "Annuler", room_path(@room), class: "inline-block mt-4 text-blue-600 hover:underline" %>
