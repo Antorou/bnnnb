@@ -1,0 +1,61 @@
+<% case tab %>
+<% when "current" %>
+  <% if current_bookings.any? %>
+    <div class="space-y-4">
+      <% current_bookings.each do |booking| %>
+        <div class="bg-white shadow-md rounded-lg p-4 border border-blue-200">
+          <p class="text-lg font-semibold text-blue-700">
+            Chambre :
+            <%= link_to booking.room.name, room_path(booking.room), class: "text-blue-600 hover:underline" %>
+          </p>
+          <p class="text-gray-600">
+            Du <%= booking.start_date.strftime('%d %b %Y') %> au <%= booking.end_date.strftime('%d %b %Y') %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-gray-500 italic">Aucune réservation en cours.</p>
+  <% end %>
+
+<% when "upcoming" %>
+  <% if upcoming_bookings.any? %>
+    <div class="space-y-4">
+      <% upcoming_bookings.each do |booking| %>
+        <div class="bg-white shadow-md rounded-lg p-4 border border-green-200">
+          <p class="text-lg font-semibold text-green-700">
+            Chambre :
+            <%= link_to booking.room.name, room_path(booking.room), class: "text-green-600 hover:underline" %>
+          </p>
+          <p class="text-gray-600">
+            Du <%= booking.start_date.strftime('%d %b %Y') %> au <%= booking.end_date.strftime('%d %b %Y') %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-gray-500 italic">Aucune réservation à venir.</p>
+  <% end %>
+
+<% when "past" %>
+  <% if past_bookings.any? %>
+    <div class="space-y-4">
+      <% past_bookings.each do |booking| %>
+        <div class="bg-white shadow-md rounded-lg p-4 border border-gray-300">
+          <p class="text-lg font-semibold text-gray-700">
+            Chambre :
+            <%= link_to booking.room.name, room_path(booking.room), class: "text-gray-600 hover:underline" %>
+          </p>
+          <p class="text-gray-600">
+            Du <%= booking.start_date.strftime('%d %b %Y') %> au <%= booking.end_date.strftime('%d %b %Y') %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-gray-500 italic">Aucune réservation passée.</p>
+  <% end %>
+
+<% else %>
+  <p class="text-gray-500 italic">Sélectionnez un onglet pour voir vos réservations.</p>
+<% end %>

@@ -1,4 +1,5 @@
 <h2 class="text-2xl font-semibold mb-4">Réserver la chambre : <%= @room.name %></h2>
+<p class="text-lg mb-4 text-gray-800">Prix par nuit : <%= number_to_currency(@room.price_per_night, unit: "€") %></p>
 
 <% if @booking.errors.any? %>
   <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -41,5 +42,11 @@
     <%= f.button :submit, "Réserver", class: "bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700 transition" %>
   </div>
 <% end %>
+
+<div>
+  <p class="text-md font-medium text-gray-700">Prix total : 
+    <span id="total-price">0 €</span>
+  </p>
+</div>
 
 <%= link_to "Annuler", room_path(@room), class: "inline-block mt-4 text-blue-600 hover:underline" %>

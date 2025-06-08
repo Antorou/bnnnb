@@ -3,54 +3,35 @@
 <h2>Mes chambres</h2>
 <% @rooms.each do |room| %>
   <div>
-    <h3>
-      <%= link_to room.name, room_path(room) %>
-    </h3>
+    <h3><%= link_to room.name, room_path(room) %></h3>
     <p><%= room.description %></p>
   </div>
 <% end %>
 
-<h2>Mes réservations en cours</h2>
-<% if @current_bookings.any? %>
-  <% @current_bookings.each do |booking| %>
-    <div>
-      <p>
-        Chambre :
-        <%= link_to booking.room.name, room_path(booking.room) %>
-      </p>
-      <p>Du <%= booking.start_date %> au <%= booking.end_date %></p>
-    </div>
-  <% end %>
-<% else %>
-  <p>Aucune réservation en cours.</p>
-<% end %>
+<h2>Mes réservations</h2>
 
-<h2>Mes réservations à venir</h2>
-<% if @upcoming_bookings.any? %>
-  <% @upcoming_bookings.each do |booking| %>
-    <div>
-      <p>
-        Chambre :
-        <%= link_to booking.room.name, room_path(booking.room) %>
-      </p>
-      <p>Du <%= booking.start_date %> au <%= booking.end_date %></p>
-    </div>
-  <% end %>
-<% else %>
-  <p>Aucune réservation à venir.</p>
-<% end %>
+<!-- Tabs -->
+<div class="flex space-x-4 mb-6">
+  <%= link_to "En cours", user_dashboard_path(tab: "current"),
+      data: { turbo_frame: "bookings" },
+      class: "px-4 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-all duration-200" %>
 
-<h2>Mes réservations passées</h2>
-<% if @past_bookings.any? %>
-  <% @past_bookings.each do |booking| %>
-    <div>
-      <p>
-        Chambre :
-        <%= link_to booking.room.name, room_path(booking.room) %>
-      </p>
-      <p>Du <%= booking.start_date %> au <%= booking.end_date %></p>
-    </div>
-  <% end %>
-<% else %>
-  <p>Aucune réservation passée.</p>
-<% end %>
+  <%= link_to "À venir", user_dashboard_path(tab: "upcoming"),
+      data: { turbo_frame: "bookings" },
+      class: "px-4 py-2 rounded-lg text-white bg-green-600 hover:bg-green-700 transition-all duration-200" %>
+
+  <%= link_to "Passées", user_dashboard_path(tab: "past"),
+      data: { turbo_frame: "bookings" },
+      class: "px-4 py-2 rounded-lg text-white bg-gray-600 hover:bg-gray-700 transition-all duration-200" %>
+</div>
+
+
+<!-- Turbo Frame target -->
+<turbo-frame id="bookings">
+  <%= render partial: "bookings", locals: {
+    current_bookings: @current_bookings,
+    upcoming_bookings: @upcoming_bookings,
+    past_bookings: @past_bookings,
+    tab: params[:tab]
+  } %>
+</turbo-frame>
