@@ -10,13 +10,47 @@
   </div>
 <% end %>
 
+<h2>Mes réservations en cours</h2>
+<% if @current_bookings.any? %>
+  <% @current_bookings.each do |booking| %>
+    <div>
+      <p>
+        Chambre :
+        <%= link_to booking.room.name, room_path(booking.room) %>
+      </p>
+      <p>Du <%= booking.start_date %> au <%= booking.end_date %></p>
+    </div>
+  <% end %>
+<% else %>
+  <p>Aucune réservation en cours.</p>
+<% end %>
+
 <h2>Mes réservations à venir</h2>
-<% @bookings.each do |booking| %>
-  <div>
-    <p>
-      Chambre :
-      <%= link_to booking.room.name, room_path(booking.room) %>
-    </p>
-    <p>Du <%= booking.start_date %> au <%= booking.end_date %></p>
-  </div>
+<% if @upcoming_bookings.any? %>
+  <% @upcoming_bookings.each do |booking| %>
+    <div>
+      <p>
+        Chambre :
+        <%= link_to booking.room.name, room_path(booking.room) %>
+      </p>
+      <p>Du <%= booking.start_date %> au <%= booking.end_date %></p>
+    </div>
+  <% end %>
+<% else %>
+  <p>Aucune réservation à venir.</p>
+<% end %>
+
+<h2>Mes réservations passées</h2>
+<% if @past_bookings.any? %>
+  <% @past_bookings.each do |booking| %>
+    <div>
+      <p>
+        Chambre :
+        <%= link_to booking.room.name, room_path(booking.room) %>
+      </p>
+      <p>Du <%= booking.start_date %> au <%= booking.end_date %></p>
+    </div>
+  <% end %>
+<% else %>
+  <p>Aucune réservation passée.</p>
 <% end %>
