@@ -1,5 +1,28 @@
 <h1 class="text-3xl font-semibold mb-6">Nos chambres</h1>
 
+<!-- Search + Sort -->
+<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:space-x-4">
+  <%= form_with url: rooms_path, method: :get, local: true, class: "flex flex-grow" do %>
+    <input type="text" name="query" placeholder="Rechercher une chambre..." value="<%= params[:query] %>" class="flex-grow border border-gray-300 rounded-l px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-r hover:bg-blue-700 transition">Rechercher</button>
+  <% end %>
+
+  <%= form_with url: rooms_path, method: :get, local: true, class: "mt-2 sm:mt-0" do %>
+    <%= hidden_field_tag :query, params[:query] %>
+    <select name="sort" onchange="this.form.submit()" class="border border-gray-300 rounded px-3 py-2">
+      <option value="">Trier par</option>
+      <option value="price_asc" <%= "selected" if params[:sort] == "price_asc" %>>Prix croissant</option>
+      <option value="price_desc" <%= "selected" if params[:sort] == "price_desc" %>>Prix décroissant</option>
+    </select>
+  <% end %>
+</div>
+
+<!-- Reset Button -->
+<div class="mb-6">
+  <%= link_to "Réinitialiser", rooms_path, class: "inline-block bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 transition" %>
+</div>
+
+<!-- Rooms Listing -->
 <% @rooms.each do |room| %>
   <div class="mb-6 p-4 border border-gray-200 rounded-lg hover:shadow-md transition">
     <h2 class="text-xl font-medium text-blue-600 mb-1">

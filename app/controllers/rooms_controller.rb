@@ -2,9 +2,20 @@ class RoomsController < ApplicationController
     before_action :set_room, only: [:show, :edit, :update, :destroy]
 
     before_action :authorize_user!, only: [:edit, :update, :destroy]
-
     def index
-        @rooms = Room.all
+      @rooms = if params[:query].present?
+                Room.search(params[:query])
+              else
+                Room.all
+              end
+
+      # Add sorting by price
+      case params[:sort]
+      when "price_asc"
+        @rooms = @rooms.order(price_per_night: :asc)
+      when "price_desc"
+        @rooms = @rooms.order(price_per_night: :desc)
+      end
     end
 
     def show
